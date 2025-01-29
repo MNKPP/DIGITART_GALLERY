@@ -1,6 +1,6 @@
 import express from "express";
 
-import memberRouter from "./member.js";
+import memberRouter from "./member.route.js";
 
 const mainRouter = express.Router();
 

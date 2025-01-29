@@ -1,6 +1,6 @@
 import express from "express";
 
-import memberController from "../controllers/member.js";
+import memberController from "../controllers/member.controller.js";
 
 const memberRouter = express.Router();
 
