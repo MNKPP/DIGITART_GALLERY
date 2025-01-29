@@ -1,9 +1,10 @@
 import express from "express";
 
+import memberRouter from "./member.js";
+
 const mainRouter = express.Router();
 
-mainRouter.get('/', (req, res) => {
-    res.send('main router')
-})
+
+mainRouter.use(memberRouter)
 
 export default mainRouter;
