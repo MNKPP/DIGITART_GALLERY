@@ -1,5 +1,6 @@
 import Member from '../models/member.js'
 import memberValidator from "../validators/member.validator.js";
+import MemberDto from "../dto/member.dto.js";
 
 const memberController = {
     createMember: async (req, res) => {
@@ -19,7 +20,7 @@ const memberController = {
             console.log(e);
         }
 
-        res.status(200).json(member);
+        res.status(200).json(new MemberDto(member));
     }
 }
 
