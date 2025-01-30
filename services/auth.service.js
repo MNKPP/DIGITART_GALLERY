@@ -23,7 +23,7 @@ const authService = {
                 return;
             }
 
-            return jwt.sign({email}, 'secret', {expiresIn: '1d'});
+            return jwt.sign({email}, process.env.SECRET_KEY, {expiresIn: '1d'});
 
         } catch (e) {
             console.error(e.message);

@@ -42,8 +42,9 @@ const authController = {
             })
         }
 
+        let token;
         try {
-            const token = await authService.login(body);
+            token = await authService.login(body);
 
             if (!token) {
                 return res.status(401).json({
@@ -57,7 +58,7 @@ const authController = {
             })
         }
 
-        return res.status(200).json(token)
+        return res.status(200).json({token})
 
     }
 }
