@@ -10,18 +10,55 @@ const authController = {
             await memberValidator.parse(body)
         } catch (e) {
             return res.status(400).json({
-                        message: `${e.message} - Invalid register data`
+                message: `${e.message} - Invalid register data`
             });
         }
 
+        let member;
         try {
-            const member = await authService.register(body);
-            res.status(200).json(new MemberDto(member));
+            member = await authService.register(body);
+
+            if (!member) {
+                return res.status(409).json({
+                    message: `Member already exists`
+                });
+            }
         } catch (e) {
-            res.status(500).json({
+            return res.status(500).json({
                 message: `${e.message} - Error creating member`
             });
         }
+
+        return res.status(200).json(new MemberDto(member));
+    },
+    login: async (req, res) => {
+        const body = req.body;
+
+        try {
+            await memberValidator.parse(body);
+        } catch (e) {
+            return res.status(400).json({
+                message: `${e.message} - Invalid login data`
+            })
+        }
+
+        try {
+            const token = await authService.login(body);
+
+            if (!token) {
+                return res.status(401).json({
+                    message: `Invalid login credentials`
+                })
+            }
+
+        } catch (e) {
+            return res.status(500).json({
+                message: `${e.message} - Error logging in`
+            })
+        }
+
+        return res.status(200).json(token)
+
     }
 }
 

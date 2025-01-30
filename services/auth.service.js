@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import Member from '../models/member.js';
 
@@ -13,8 +14,20 @@ const authService = {
             console.error(e.message);
         }
     },
-    login: async () => {
+    login: async ({email, password}) => {
+        try {
+            const member  = await Member.findOne({ email: email});
+            const isPasswordValid = await bcrypt.compare(password, member.password);
 
+            if (!member || !isPasswordValid) {
+                return;
+            }
+
+            return jwt.sign({email}, 'secret', {expiresIn: '1d'});
+
+        } catch (e) {
+            console.error(e.message);
+        }
     },
 }
 
