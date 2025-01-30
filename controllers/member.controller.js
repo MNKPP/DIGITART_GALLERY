@@ -9,14 +9,18 @@ const memberController = {
         try {
             await memberValidator.parse(body)
         } catch (e) {
-            return res.status(400).json(e.message);
+            return res.status(400).json({
+                message: `${e.message} - Invalid member data`
+            });
         }
 
         try {
             const member = await memberService.createMember(body);
             res.status(200).json(new MemberDto(member));
         } catch (e) {
-            console.log(e);
+            res.status(500).json({
+                message: `${e.message} - Error creating member`
+            });
         }
     }
 }
